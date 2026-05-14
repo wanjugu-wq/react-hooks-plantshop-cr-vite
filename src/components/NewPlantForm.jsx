@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useState,useEffect } from "react";
 
 function NewPlantForm({ plant, setPlant }) {
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("");
+  const [price, setPrice] = useState("");
+
   function handleAdd(e) {
     e.preventDefault();
-    const form = e.target;
     const newPlant = {
-      id: plant.length + 1,
-      name: form.name.value,
-      image: form.image.value,
-      price: parseFloat(form.price.value),
+      name: name,
+      image: image,
+      price: price,
     };
-    form.reset();
+    setName("");
+    setImage("");
+    setPrice("");
 
     fetch("http://localhost:6001/plants", {
       method: "POST",
@@ -27,10 +31,28 @@ function NewPlantForm({ plant, setPlant }) {
     <div className="new-plant-form">
       <h2>New Plant</h2>
       <form onSubmit={handleAdd}>
-        <input type="text" name="name" placeholder="Plant name" />
-        <input type="text" name="image" placeholder="Image URL" />
-        <input type="number" name="price" step="0.01" placeholder="Price" />
-        <button type="submit">Add Plant</button>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Plant name"
+        />
+        <input
+          type="text"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+          placeholder="Image URL"
+        />
+        <input
+          type="number"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          step="0.01"
+          placeholder="Price"
+        />
+        <button type="submit">
+          Add Plant
+        </button>
       </form>
     </div>
   );
